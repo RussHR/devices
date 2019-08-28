@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 // Place API calls here.
-const listGet = () => (axios.get('http://localhost:3004/eu-devices'));
+const deviceListGet = (region = 'eu') => (axios.get(`http://localhost:3004/${region}-devices`));
 
 export default {
-	listGet
+	deviceListGet
 };

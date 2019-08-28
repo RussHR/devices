@@ -3,8 +3,8 @@ import api from "./api";
 import types from "./types";
 
 // Place simple actions here.
-const fetchList = createApiAction(types.LIST_GET, (payload) => api.listGet(payload));
+const fetchDeviceList = createApiAction(types.LIST_GET, (payload) => api.deviceListGet(payload));
 
 export default {
-	fetchList
+	fetchDeviceList
 };
