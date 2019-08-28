@@ -5,8 +5,8 @@ import actions from "../ducks/devices/actions";
 
 class OverviewContainer extends Component {
   componentDidMount() {
-    this.props.fetchDeviceList('eu');
-    this.props.fetchDeviceList('us');
+    this.props.fetchEuDeviceList();
+    this.props.fetchUsDeviceList();
   }
 
   render() {
@@ -15,8 +15,10 @@ class OverviewContainer extends Component {
 }
 
 OverviewContainer.propTypes = {
-  /** kicks off the API call to get the list of devices */
-  fetchDeviceList: PropTypes.func.isRequired,
+  /** kicks off the API call to get the list of devices from EU data center */
+  fetchEuDeviceList: PropTypes.func.isRequired,
+  /** same as above, but for the US */
+  fetchUsDeviceList: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ devices }) => ({
@@ -24,7 +26,8 @@ const mapStateToProps = ({ devices }) => ({
 });
 
 const mapDispatchToProps = {
-  fetchDeviceList: actions.fetchDeviceList
+  fetchEuDeviceList: actions.fetchEuDeviceList,
+  fetchUsDeviceList: actions.fetchUsDeviceList
 };
 
 export default connect(
