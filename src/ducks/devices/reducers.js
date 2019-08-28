@@ -59,7 +59,7 @@ const reducer = combineReducers({
 export default reducer;
 
 /**
- * 
+ * Adds devices from a device list fetch to the device list.
  * @param {object} oldState - old list of devices with descriptorId as key
  * @param {array} payload - list of devices returned from API, each an object
  * @returns {object} new list of devices combining the old list and the API results
@@ -72,7 +72,7 @@ export const addDeviceListPayloadToState = (oldState, payload) => {
 				name,
 				os,
 				osVersion,
-				available: false
+				available: oldState[descriptorId] ? oldState[descriptorId].available : false
 			}
 		};
 	}, {});
@@ -80,6 +80,37 @@ export const addDeviceListPayloadToState = (oldState, payload) => {
 	return { ...oldState, ...newState };
 };
 
-export const updateDeviceAvailability = (state) => {
-	return state;
+/**
+ * Adds devices from a device list fetch to the device list.
+ * @param {object} oldState - old list of devices with descriptorId as key
+ * @param {array} payload - list of devices returned from API, each an object
+ * @returns {object} new list of devices combining the old list and the API results
+ */
+export const updateDeviceAvailability = (oldState, payload) => {
+	// this sets the availability to false for all devices that have been fetched
+	const newState = Object.entries(oldState).reduce((state, [descriptorId, { name, os, osVersion }]) => {
+		return {
+			...state,
+			[descriptorId]: {
+				name,
+				os,
+				osVersion,
+				available: false
+			}
+		};
+	}, {});
+
+	payload.forEach(descriptorId => {
+		if (newState[descriptorId]) {
+			// if the descriptorId already exists, edit the availability for that device
+			newState[descriptorId].available = true;
+		} else {
+			// add the new property with descriptorId as key
+			newState[descriptorId] = {
+				available: true
+			};
+		}
+	});
+
+	return newState;
 };
