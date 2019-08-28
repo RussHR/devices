@@ -5,7 +5,7 @@ import { addDeviceListPayloadToState } from "./reducers";
 describe('reducer - devices', () => {
 	describe('deviceList', () => {
 		it('should return the initial state', () => {
-			expect(reducer(undefined, {})).to.deep.equal({ deviceList: {} });
+			expect(reducer(undefined, {})).to.deep.equal({ deviceList: { us: {}, eu: {} } });
 		});
 
 		describe('addDeviceListPayloadToState', () => {
@@ -15,7 +15,6 @@ describe('reducer - devices', () => {
 					name: 'name 0',
 					os: 'ANDROID',
 					osVersion: '7.8.9',
-					dataCenterId: 'US',
 					available: false
 				},
 			}
@@ -27,7 +26,6 @@ describe('reducer - devices', () => {
 						name: 'name 1',
 						os: 'ANDROID',
 						osVersion: '1.2.3',
-						dataCenterId: 'EU',
 						available: false
 					},
 					{
@@ -35,7 +33,6 @@ describe('reducer - devices', () => {
 						name: 'name 2',
 						os: 'IOS',
 						osVersion: '4.5.6',
-						dataCenterId: 'US',
 						available: false
 
 					}
@@ -48,14 +45,12 @@ describe('reducer - devices', () => {
 						name: 'name 1',
 						os: 'ANDROID',
 						osVersion: '1.2.3',
-						dataCenterId: 'EU',
 						available: false
 					},
 					descriptorId_2: {
 						name: 'name 2',
 						os: 'IOS',
 						osVersion: '4.5.6',
-						dataCenterId: 'US',
 						available: false
 					}
 				});
@@ -67,21 +62,18 @@ describe('reducer - devices', () => {
 						name: 'name 0',
 						os: 'ANDROID',
 						osVersion: '7.8.9',
-						dataCenterId: 'US',
 						available: false
 					},
 					descriptorId_1: {
 						name: 'name 1',
 						os: 'ANDROID',
 						osVersion: '1.2.3',
-						dataCenterId: 'EU',
 						available: false
 					},
 					descriptorId_2: {
 						name: 'name 2',
 						os: 'IOS',
 						osVersion: '4.5.6',
-						dataCenterId: 'US',
 						available: false
 					}
 				});
