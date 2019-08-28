@@ -15,7 +15,7 @@ class OverviewContainer extends Component {
 }
 
 OverviewContainer.propTypes = {
-  /* kicks off the API call to get the list of devices */
+  /** kicks off the API call to get the list of devices */
   fetchDeviceList: PropTypes.func.isRequired,
 };
 
