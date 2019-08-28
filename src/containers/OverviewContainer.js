@@ -7,6 +7,27 @@ class OverviewContainer extends Component {
   componentDidMount() {
     this.props.fetchEuDeviceList();
     this.props.fetchUsDeviceList();
+
+    this.kickoffFetchDeviceAvailability();
+  }
+
+  componentWillUnmount() {
+    window.clearInterval(this.intervalId);
+  }
+
+  /**
+   * Handles the kickoff of polling for device availability and stores the intervalId
+   */
+  kickoffFetchDeviceAvailability = () => {
+    this.intervalId = window.setInterval(this.fetchDeviceAvailability, 2000);
+  }
+
+  /**
+   * Performs the API calls to get the list of currently available devices
+   */
+  fetchDeviceAvailability = () => {
+    console.log('getting eu');
+    console.log('getting us');
   }
 
   render() {
