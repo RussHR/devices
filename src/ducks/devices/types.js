@@ -1,13 +1,10 @@
-import { createConstants } from '../../utils/constant';
-// import { createApiConstants } from '../../utils/constant';
+import { createApiConstants } from '../../utils/constant';
 
 // Place action type constants here.
 
-const NAMESPACE_DEVICES = 'devices';
-const DEVICES = createConstants(NAMESPACE_DEVICES, 'devices')(
-	'ADD',
-);
+export const NAMESPACE = 'devices';
+export const LIST_GET = createApiConstants(NAMESPACE, 'list_get');
 
 export default {
-	DEVICES
+	LIST_GET
 };

@@ -1,7 +1,12 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
+import actions from "../ducks/devices/actions";
 
 class OverviewContainer extends Component {
+  componentDidMount() {
+    this.props.fetchDeviceList();
+  }
+
   render() {
     return "The devices overview goes here"
   }
@@ -9,9 +14,13 @@ class OverviewContainer extends Component {
 
 OverviewContainer.propTypes = {};
 
-const mapStateToProps = state => ({});
+const mapStateToProps = ({ devices }) => ({
+  devices // normally I would write a selector, but this app is small
+});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  fetchDeviceList: actions.fetchList
+};
 
 export default connect(
   mapStateToProps,

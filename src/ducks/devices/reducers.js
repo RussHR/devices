@@ -9,7 +9,7 @@ import types from "./types";
 			name: string,
 			os: string ('ANDROID' || 'IOS'),
 			osVersion: string,
-			region: string ('EU' || 'US'),
+			dataCenterId: string ('EU' || 'US'),
 			available: bool
 		}
 	}
@@ -18,11 +18,8 @@ import types from "./types";
 
 const devicesReducer = (state = {}, action) => {
 	switch (action.type) {
-		case types.DEVICES.ADD:
-			return {
-				...state,
-				...action.payload
-			};
+		case types.LIST_GET.SUCCESS:
+			return addDeviceListPayloadToState(state, action.payload);
 		default:
 			return state;
 	}
@@ -33,3 +30,26 @@ const reducer = combineReducers({
 });
 
 export default reducer;
+
+/**
+ * 
+ * @param {object} oldState - old list of devices with descriptorId as key
+ * @param {array} payload - list of devices returned from API, each an object
+ * @returns {object} new list of devices combining the old list and the API results
+ */
+export const addDeviceListPayloadToState = (oldState, payload) => {
+	const newState = payload.reduce((state, { descriptorId, name, os, osVersion, dataCenterId }) => {
+		return {
+			...state,
+			[descriptorId]: {
+				name,
+				os,
+				osVersion,
+				dataCenterId,
+				available: false
+			}
+		};
+	}, {});
+
+	return { ...oldState, ...newState };
+};
