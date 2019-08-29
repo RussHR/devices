@@ -1,6 +1,6 @@
 import reducer from "./index";
 import { expect } from "chai";
-import { addDeviceListPayloadToState } from "./reducers";
+import { addDeviceListPayloadToState, updateDeviceAvailability } from "./reducers";
 
 describe('reducer - devices', () => {
 	describe('deviceList', () => {
@@ -34,7 +34,6 @@ describe('reducer - devices', () => {
 						os: 'IOS',
 						osVersion: '4.5.6',
 						available: false
-
 					}
 				];
 			});
@@ -78,6 +77,48 @@ describe('reducer - devices', () => {
 					}
 				});
 
+			});
+		});
+
+		describe('updateDeviceAvailability', () => {
+			it('should change the availability of a device to true if the device is in the list', () => {
+				const deviceList = {
+					descriptorId_0: {
+						name: 'name 0',
+						os: 'ANDROID',
+						osVersion: '7.8.9',
+						available: false
+					}
+				};
+				const availabilityList = ['descriptorId_0'];
+				expect(updateDeviceAvailability(deviceList, availabilityList)).to.deep.equal({
+					descriptorId_0: {
+						name: 'name 0',
+						os: 'ANDROID',
+						osVersion: '7.8.9',
+						available: true
+					},
+				});
+			});
+
+			it('should change the availability of a device to false if the device is not in the list', () => {
+				const deviceList = {
+					descriptorId_0: {
+						name: 'name 0',
+						os: 'ANDROID',
+						osVersion: '7.8.9',
+						available: false
+					}
+				};
+				const availabilityList = ['some_silly_device'];
+				expect(updateDeviceAvailability(deviceList, availabilityList)).to.deep.equal({
+					descriptorId_0: {
+						name: 'name 0',
+						os: 'ANDROID',
+						osVersion: '7.8.9',
+						available: false
+					},
+				});
 			});
 		});
 	});

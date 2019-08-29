@@ -2,34 +2,68 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import actions from "../ducks/devices/actions";
+import selectors from "../ducks/devices/selectors";
 
 class OverviewContainer extends Component {
   componentDidMount() {
     this.props.fetchEuDeviceList();
     this.props.fetchUsDeviceList();
 
-    this.fetchDeviceAvailability();
-    this.kickoffFetchDeviceAvailability();
+    /** for polling the device availability from the EU data center */
+    this.euAvailabilityIntervalId = null;
+    /** for polling the device availability from the US data center */
+    this.usAvailabilityIntervalId = null;
   }
 
   componentWillUnmount() {
-    window.clearInterval(this.intervalId);
+    window.clearInterval(this.euAvailabilityIntervalId);
+    window.clearInterval(this.usAvailabilityIntervalId);
+  }
+
+  /** kickoff the setInterval calls only if devices have been fetched */
+  componentDidUpdate({ euDeviceList: oldDeviceListEu, usDeviceList: oldDeviceListUs }) {
+    const { euDeviceList, usDeviceList } = this.props;
+    if (oldDeviceListUs.length === 0 && usDeviceList !== 0) {
+      this.kickoffFetchUsDeviceAvailability();
+    }
+
+    if (oldDeviceListEu.length === 0 && euDeviceList.length !== 0) {
+      this.kickoffFetchEuDeviceAvailability();
+    }
   }
 
   /**
-   * Handles the kickoff of polling for device availability and stores the intervalId
+   * Handles the kickoff of polling for EU device availability
+   * @returns {undefined}
    */
-  kickoffFetchDeviceAvailability = () => {
-    this.intervalId = window.setInterval(this.fetchDeviceAvailability, 2000);
+  kickoffFetchEuDeviceAvailability = () => {
+    this.euAvailabilityIntervalId = window.setInterval(this.fetchEuDeviceAvailability, 2000);
   }
 
   /**
-   * Performs the API calls to get the list of currently available devices
+   * Handles the kickoff of polling for US device availability
+   * @returns {undefined}
    */
-  fetchDeviceAvailability = () => {
+  kickoffFetchUsDeviceAvailability = () => {
+    this.usAvailabilityIntervalId = window.setInterval(this.fetchUsDeviceAvailability, 2000);
+  }
+
+  /**
+  * Sends off API call for fetching EU device availability
+   * @returns {undefined}
+  */
+  fetchEuDeviceAvailability = () => {
     this.props.fetchEuDeviceAvailability();
+  }
+
+  /**
+  * Sends off API call for fetching US device availability
+   * @returns {undefined}
+  */
+  fetchUsDeviceAvailability = () => {
     this.props.fetchUsDeviceAvailability();
   }
+
 
   render() {
     return "The devices overview goes here"
@@ -44,11 +78,14 @@ OverviewContainer.propTypes = {
   /** kicks off the API call to the the device availability from EU data center */
   fetchEuDeviceAvailability: PropTypes.func.isRequired,
   /** kicks off the API call to the the device availability from US data center */
-  fetchUsDeviceAvailability: PropTypes.func.isRequired
+  fetchUsDeviceAvailability: PropTypes.func.isRequired,
+  euDeviceList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  usDeviceList: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
-const mapStateToProps = ({ devices }) => ({
-  devices // normally I would write a selector, but this app is small
+export const mapStateToProps = (state) => ({
+  euDeviceList: selectors.selectDeviceList(state, 'eu'), // normally I would write a selector, but this app is small
+  usDeviceList: selectors.selectDeviceList(state, 'us') // normally I would write a selector, but this app is small
 });
 
 const mapDispatchToProps = {
