@@ -1,13 +1,18 @@
 import reducer from "./index";
 import { expect } from "chai";
 import { addDeviceListPayloadToState, updateDeviceAvailability } from "./reducers";
+import constants from "./constants";
+
 
 describe('reducer - devices', () => {
-	describe('deviceList', () => {
-		it('should return the initial state', () => {
-			expect(reducer(undefined, {})).to.deep.equal({ deviceList: { us: {}, eu: {} } });
+	it('should return the initial state', () => {
+		expect(reducer(undefined, {})).to.deep.equal({
+			deviceList: { us: {}, eu: {} },
+			filterMode: constants.DEVICES_ALL
 		});
+	});
 
+	describe('deviceList', () => {
 		describe('addDeviceListPayloadToState', () => {
 			let payload;
 			let oldState = {

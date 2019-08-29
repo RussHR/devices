@@ -1,4 +1,4 @@
-import { createApiAction } from "../../utils/action";
+import { createAction, createApiAction } from "../../utils/action";
 import api from "./api";
 import types from "./types";
 
@@ -8,9 +8,13 @@ const fetchUsDeviceList = createApiAction(types.LIST_GET_US, (payload) => api.de
 const fetchEuDeviceAvailability = createApiAction(types.AVAILABILITY_GET_EU, (payload) => api.deviceAvailabilityEuGet(payload));
 const fetchUsDeviceAvailability = createApiAction(types.AVAILABILITY_GET_US, (payload) => api.deviceAvailabilityUsGet(payload));
 
+// Usage of the utility
+const filterSet = createAction(types.FILTER.SET);
+
 export default {
 	fetchEuDeviceList,
 	fetchUsDeviceList,
 	fetchEuDeviceAvailability,
-	fetchUsDeviceAvailability
+	fetchUsDeviceAvailability,
+	filterSet
 };

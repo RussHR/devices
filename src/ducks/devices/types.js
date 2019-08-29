@@ -1,4 +1,5 @@
-import { createApiConstants } from '../../utils/constant';
+import { createConstants, createApiConstants } from "../../utils/constant";
+import constants from "./constants";
 
 // Place action type constants here.
 
@@ -9,9 +10,13 @@ export const LIST_GET_US = createApiConstants(NAMESPACE_US, 'device_list_get');
 export const AVAILABILITY_GET_EU = createApiConstants(NAMESPACE_EU, 'device_availability_get');
 export const AVAILABILITY_GET_US = createApiConstants(NAMESPACE_US, 'device_availability_get');
 
+export const NAMESPACE_UI = 'ui_only';
+export const FILTER = createConstants(NAMESPACE_UI, 'device_filter')('SET');
+
 export default {
 	LIST_GET_EU,
 	LIST_GET_US,
 	AVAILABILITY_GET_EU,
-	AVAILABILITY_GET_US
+	AVAILABILITY_GET_US,
+	FILTER
 };

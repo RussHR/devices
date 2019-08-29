@@ -1,7 +1,8 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import actions from "../ducks/devices/actions";
+import constants from "../ducks/devices/constants";
 import selectors from "../ducks/devices/selectors";
 
 class OverviewContainer extends Component {
@@ -49,24 +50,38 @@ class OverviewContainer extends Component {
   }
 
   /**
-  * Sends off API call for fetching EU device availability
+   * Sends off API call for fetching EU device availability
    * @returns {undefined}
-  */
+   */
   fetchEuDeviceAvailability = () => {
     this.props.fetchEuDeviceAvailability();
   }
 
   /**
-  * Sends off API call for fetching US device availability
+   * Sends off API call for fetching US device availability
    * @returns {undefined}
-  */
+   */
   fetchUsDeviceAvailability = () => {
     this.props.fetchUsDeviceAvailability();
   }
 
+  /**
+   * Determines whether to show all the devices, just iOS, or just Android
+   * @param {object} event - js event from changing the value of a <select />
+   * @returns {undefined}
+   */
+  setFilterMode = ({ currentTarget: { value } }) => {
+    this.props.setFilterMode(value);
+  }
 
   render() {
-    return "The devices overview goes here"
+    return (
+      <select value={this.props.filterMode} onChange={this.setFilterMode}>
+        <option value={constants.DEVICES_ALL}>All devices</option>
+        <option value={constants.DEVICES_ANDROID}>Android</option>
+        <option value={constants.DEVICES_IOS}>iOS</option>
+      </select>
+    );
   }
 }
 
@@ -79,20 +94,26 @@ OverviewContainer.propTypes = {
   fetchEuDeviceAvailability: PropTypes.func.isRequired,
   /** kicks off the API call to the the device availability from US data center */
   fetchUsDeviceAvailability: PropTypes.func.isRequired,
+  /** list of all EU devices, available and unavailable */
   euDeviceList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  usDeviceList: PropTypes.arrayOf(PropTypes.object).isRequired
+  /** list of all US devices, available and unavailable */
+  usDeviceList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** determines which devices to show based on OS */
+  filterMode: PropTypes.oneOf([constants.DEVICES_ALL, constants.DEVICES_ANDROID, constants.DEVICES_IOS])
 };
 
 export const mapStateToProps = (state) => ({
-  euDeviceList: selectors.selectDeviceList(state, 'eu'), // normally I would write a selector, but this app is small
-  usDeviceList: selectors.selectDeviceList(state, 'us') // normally I would write a selector, but this app is small
+  euDeviceList: selectors.selectDeviceList(state, 'eu'),
+  usDeviceList: selectors.selectDeviceList(state, 'us'),
+  filterMode: state.devices.filterMode
 });
 
 const mapDispatchToProps = {
   fetchEuDeviceList: actions.fetchEuDeviceList,
   fetchUsDeviceList: actions.fetchUsDeviceList,
   fetchEuDeviceAvailability: actions.fetchEuDeviceAvailability,
-  fetchUsDeviceAvailability: actions.fetchUsDeviceAvailability
+  fetchUsDeviceAvailability: actions.fetchUsDeviceAvailability,
+  setFilterMode: actions.filterSet
 };
 
 export default connect(
