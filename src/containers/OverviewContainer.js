@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import actions from "../ducks/devices/actions";
+import selectors from "../ducks/devices/selectors";
 
 class OverviewContainer extends Component {
   componentDidMount() {
@@ -20,14 +21,13 @@ class OverviewContainer extends Component {
   }
 
   /** kickoff the setInterval calls only if devices have been fetched */
-  componentDidUpdate({ devices: { deviceList: { us: oldDeviceListUs, eu: oldDeviceListEu }} }) {
-    const { deviceList } = this.props.devices;
-
-    if (Object.keys(oldDeviceListUs).length === 0 && Object.keys(deviceList.us).length !== 0) {
+  componentDidUpdate({ euDeviceList: oldDeviceListEu, usDeviceList: oldDeviceListUs }) {
+    const { euDeviceList, usDeviceList } = this.props;
+    if (Object.keys(oldDeviceListUs).length === 0 && Object.keys(usDeviceList).length !== 0) {
       this.kickoffFetchUsDeviceAvailability();
     }
 
-    if (Object.keys(oldDeviceListEu).length === 0 && Object.keys(deviceList.eu).length !== 0) {
+    if (Object.keys(oldDeviceListEu).length === 0 && Object.keys(euDeviceList).length !== 0) {
       this.kickoffFetchEuDeviceAvailability();
     }
   }
@@ -78,11 +78,14 @@ OverviewContainer.propTypes = {
   /** kicks off the API call to the the device availability from EU data center */
   fetchEuDeviceAvailability: PropTypes.func.isRequired,
   /** kicks off the API call to the the device availability from US data center */
-  fetchUsDeviceAvailability: PropTypes.func.isRequired
+  fetchUsDeviceAvailability: PropTypes.func.isRequired,
+  euDeviceList: PropTypes.array.isRequired,
+  usDeviceList: PropTypes.array.isRequired
 };
 
-const mapStateToProps = ({ devices }) => ({
-  devices // normally I would write a selector, but this app is small
+const mapStateToProps = (state) => ({
+  euDeviceList: selectors.selectEuDeviceList(state), // normally I would write a selector, but this app is small
+  usDeviceList: selectors.selectUsDeviceList(state) // normally I would write a selector, but this app is small
 });
 
 const mapDispatchToProps = {
