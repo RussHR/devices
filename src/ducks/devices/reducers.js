@@ -1,6 +1,7 @@
 // Place reducers here.
 import { combineReducers } from "redux";
 import types from "./types";
+import constants from "./constants";
 
 /* State Shape
 {
@@ -21,7 +22,8 @@ import types from "./types";
 				available: bool
 			}
 		}
-	}
+	},
+	filterMode: string ('ALL' || 'ANDROID' || 'IOS')
 }
 */
 
@@ -47,16 +49,29 @@ const usDevicesReducer = (state = {}, action) => {
 	}
 }
 
+const filterModeReducer = (state = constants.DEVICES_ALL, action) => {
+	switch(action.type) {
+		case types.FILTER.SET:
+			return action.payload;
+		default:
+			return state;
+	}
+}
+
 const deviceList = combineReducers({
 	eu: euDevicesReducer,
 	us: usDevicesReducer
 });
 
 const reducer = combineReducers({
-	deviceList
+	deviceList,
+	filterMode: filterModeReducer
 });
 
 export default reducer;
+
+
+// HELPERS
 
 /**
  * Adds devices from a device list fetch to the device list.
