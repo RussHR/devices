@@ -102,13 +102,7 @@ export const updateDeviceAvailability = (oldState, payload) => {
 
 	payload.forEach(descriptorId => {
 		if (newState[descriptorId]) {
-			// if the descriptorId already exists, edit the availability for that device
 			newState[descriptorId].available = true;
-		} else {
-			// add the new property with descriptorId as key
-			newState[descriptorId] = {
-				available: true
-			};
 		}
 	});
 
