@@ -34,7 +34,6 @@ describe('reducer - devices', () => {
 						os: 'IOS',
 						osVersion: '4.5.6',
 						available: false
-
 					}
 				];
 			});

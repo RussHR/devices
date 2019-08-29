@@ -23,11 +23,11 @@ class OverviewContainer extends Component {
   /** kickoff the setInterval calls only if devices have been fetched */
   componentDidUpdate({ euDeviceList: oldDeviceListEu, usDeviceList: oldDeviceListUs }) {
     const { euDeviceList, usDeviceList } = this.props;
-    if (Object.keys(oldDeviceListUs).length === 0 && Object.keys(usDeviceList).length !== 0) {
+    if (oldDeviceListUs.length === 0 && usDeviceList !== 0) {
       this.kickoffFetchUsDeviceAvailability();
     }
 
-    if (Object.keys(oldDeviceListEu).length === 0 && Object.keys(euDeviceList).length !== 0) {
+    if (oldDeviceListEu.length === 0 && euDeviceList.length !== 0) {
       this.kickoffFetchEuDeviceAvailability();
     }
   }
@@ -79,13 +79,13 @@ OverviewContainer.propTypes = {
   fetchEuDeviceAvailability: PropTypes.func.isRequired,
   /** kicks off the API call to the the device availability from US data center */
   fetchUsDeviceAvailability: PropTypes.func.isRequired,
-  euDeviceList: PropTypes.array.isRequired,
-  usDeviceList: PropTypes.array.isRequired
+  euDeviceList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  usDeviceList: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
-const mapStateToProps = (state) => ({
-  euDeviceList: selectors.selectEuDeviceList(state), // normally I would write a selector, but this app is small
-  usDeviceList: selectors.selectUsDeviceList(state) // normally I would write a selector, but this app is small
+export const mapStateToProps = (state) => ({
+  euDeviceList: selectors.selectDeviceList(state, 'eu'), // normally I would write a selector, but this app is small
+  usDeviceList: selectors.selectDeviceList(state, 'us') // normally I would write a selector, but this app is small
 });
 
 const mapDispatchToProps = {
