@@ -8,28 +8,62 @@ class OverviewContainer extends Component {
     this.props.fetchEuDeviceList();
     this.props.fetchUsDeviceList();
 
-    this.fetchDeviceAvailability();
-    this.kickoffFetchDeviceAvailability();
+    /** for polling the device availability from the EU data center */
+    this.euAvailabilityIntervalId = null;
+    /** for polling the device availability from the US data center */
+    this.usAvailabilityIntervalId = null;
   }
 
   componentWillUnmount() {
-    window.clearInterval(this.intervalId);
+    window.clearInterval(this.euAvailabilityIntervalId);
+    window.clearInterval(this.usAvailabilityIntervalId);
+  }
+
+  /** kickoff the setInterval calls only if devices have been fetched */
+  componentDidUpdate({ devices: { deviceList: { us: oldDeviceListUs, eu: oldDeviceListEu }} }) {
+    const { deviceList } = this.props.devices;
+
+    if (Object.keys(oldDeviceListUs).length === 0 && Object.keys(deviceList.us).length !== 0) {
+      this.kickoffFetchUsDeviceAvailability();
+    }
+
+    if (Object.keys(oldDeviceListEu).length === 0 && Object.keys(deviceList.eu).length !== 0) {
+      this.kickoffFetchEuDeviceAvailability();
+    }
   }
 
   /**
-   * Handles the kickoff of polling for device availability and stores the intervalId
+   * Handles the kickoff of polling for EU device availability
+   * @returns {undefined}
    */
-  kickoffFetchDeviceAvailability = () => {
-    this.intervalId = window.setInterval(this.fetchDeviceAvailability, 2000);
+  kickoffFetchEuDeviceAvailability = () => {
+    this.euAvailabilityIntervalId = window.setInterval(this.fetchEuDeviceAvailability, 2000);
   }
 
   /**
-   * Performs the API calls to get the list of currently available devices
+   * Handles the kickoff of polling for US device availability
+   * @returns {undefined}
    */
-  fetchDeviceAvailability = () => {
+  kickoffFetchUsDeviceAvailability = () => {
+    this.usAvailabilityIntervalId = window.setInterval(this.fetchUsDeviceAvailability, 2000);
+  }
+
+  /**
+  * Sends off API call for fetching EU device availability
+   * @returns {undefined}
+  */
+  fetchEuDeviceAvailability = () => {
     this.props.fetchEuDeviceAvailability();
+  }
+
+  /**
+  * Sends off API call for fetching US device availability
+   * @returns {undefined}
+  */
+  fetchUsDeviceAvailability = () => {
     this.props.fetchUsDeviceAvailability();
   }
+
 
   render() {
     return "The devices overview goes here"
