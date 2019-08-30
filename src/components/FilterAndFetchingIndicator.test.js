@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { render, shallow } from 'enzyme';
 import sinon from "sinon";
 import types from "../ducks/devices/types";
 import FilterAndFetchingIndicator from './FilterAndFetchingIndicator';
@@ -22,7 +22,7 @@ describe('FilterAndFetchingIndicator', () => {
 			filterMode: types.DEVICES_ALL,
 			setFilterMode: () => {}
 		};
-		const wrapper = shallow(<FilterAndFetchingIndicator {...mockProps} />);
+		const wrapper = render(<FilterAndFetchingIndicator {...mockProps} />);
 		expect(wrapper.find('[data-qa="eu-availability-spinner"]').hasClass('filterAndFetchingIndicator__spinner--active')).to.equal(true);
 	});
 
@@ -32,7 +32,7 @@ describe('FilterAndFetchingIndicator', () => {
 			filterMode: types.DEVICES_ALL,
 			setFilterMode: () => {}
 		};
-		const wrapper = shallow(<FilterAndFetchingIndicator {...mockProps} />);
+		const wrapper = render(<FilterAndFetchingIndicator {...mockProps} />);
 		expect(wrapper.find('[data-qa="us-availability-spinner"]').hasClass('filterAndFetchingIndicator__spinner--active')).to.equal(true);
 	});
 
@@ -42,7 +42,7 @@ describe('FilterAndFetchingIndicator', () => {
 			filterMode: types.DEVICES_ALL,
 			setFilterMode: () => {}
 		};
-		const wrapper = shallow(<FilterAndFetchingIndicator {...mockProps} />);
+		const wrapper = render(<FilterAndFetchingIndicator {...mockProps} />);
 		expect(wrapper.text()).to.contain('Fetching EU devices...');
 	});
 
@@ -52,7 +52,7 @@ describe('FilterAndFetchingIndicator', () => {
 			filterMode: types.DEVICES_ALL,
 			setFilterMode: () => {}
 		};
-		const wrapper = shallow(<FilterAndFetchingIndicator {...mockProps} />);
+		const wrapper = render(<FilterAndFetchingIndicator {...mockProps} />);
 		expect(wrapper.text()).to.contain('Fetching US devices...');
 	});
 

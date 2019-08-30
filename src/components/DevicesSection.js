@@ -11,7 +11,11 @@ const DevicesSection = ({ deviceList }) => {
 	return (
 		<section className="devicesSection">
 			{deviceList.map(({ descriptorId, name, os, osVersion, region, available }) => (
-				<div key={`${region}-${descriptorId}`} className="devicesSection__device">
+				<div
+					key={`${region}-${descriptorId}`}
+					className="devicesSection__device"
+					data-qa={`device-${descriptorId}`}
+				>
 					<img
 						src={`https://d3ty40hendov17.cloudfront.net/device-pictures/${descriptorId}.png`}
 						alt={`Mobile device: ${name}.`}
@@ -41,7 +45,7 @@ DevicesSection.propTypes = {
 		osVersion: PropTypes.string.isRequired,
 		region: PropTypes.oneOf([types.NAMESPACE_EU, types.NAMESPACE_US]),
 		available: PropTypes.bool
-	})),
+	}))
 };
 
 DevicesSection.defaultProps = {
