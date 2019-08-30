@@ -10,7 +10,7 @@ const FilterAndFetchingIndicator = ({ fetchingStatuses: { eu, us }, filterMode, 
 
 	return (
 		<section className="filterAndFetchingIndicator">
-			<div>
+			<div className="filterAndFetchingIndicator__filter">
 				<label htmlFor="set-filter-mode">OS:</label>
 				<br />
 				<select value={filterMode} onChange={setFilterMode} id="set-filter-mode">
