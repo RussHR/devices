@@ -8,7 +8,17 @@ describe('reducer - devices', () => {
 	it('should return the initial state', () => {
 		expect(reducer(undefined, {})).to.deep.equal({
 			deviceList: { us: {}, eu: {} },
-			filterMode: constants.DEVICES_ALL
+			filterMode: constants.DEVICES_ALL,
+			fetching: {
+				eu: {
+					deviceList: false,
+					availability: false
+				},
+				us: {
+					deviceList: false,
+					availability: false
+				}
+			}
 		});
 	});
 

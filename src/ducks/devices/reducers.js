@@ -23,7 +23,17 @@ import constants from "./constants";
 			}
 		}
 	},
-	filterMode: string ('ALL' || 'ANDROID' || 'IOS')
+	filterMode: string ('ALL' || 'ANDROID' || 'IOS'),
+	fetching: {
+		eu: {
+			deviceList: false,
+			availability: false
+		},
+		us: {
+			deviceList: false,
+			availability: false
+		}
+	}
 }
 */
 
@@ -58,6 +68,64 @@ const filterModeReducer = (state = constants.DEVICES_ALL, action) => {
 	}
 }
 
+const euDeviceListFetchingReducer = (state = false, action) => {
+	switch (action.type) {
+		case types.LIST_GET_EU.REQUEST:
+			return true;
+		case types.LIST_GET_EU.SUCCESS:
+		case types.LIST_GET_EU.FAILURE:
+			return false;
+		default:
+			return state;
+	}
+};
+const euDeviceAvailabilityFetchingReducer = (state = false, action) => {
+	switch (action.type) {
+		case types.AVAILABILITY_GET_EU.REQUEST:
+			return true;
+		case types.AVAILABILITY_GET_EU.SUCCESS:
+		case types.AVAILABILITY_GET_EU.FAILURE:
+			return false;
+		default:
+			return state;
+	}
+};
+const usDeviceListFetchingReducer = (state = false, action) => {
+	switch (action.type) {
+		case types.LIST_GET_US.REQUEST:
+			return true;
+		case types.LIST_GET_US.SUCCESS:
+		case types.LIST_GET_US.FAILURE:
+			return false;
+		default:
+			return state;
+	}
+};
+const usDeviceAvailabilityFetchingReducer = (state = false, action) => {
+	switch (action.type) {
+		case types.AVAILABILITY_GET_US.REQUEST:
+			return true;
+		case types.AVAILABILITY_GET_US.SUCCESS:
+		case types.AVAILABILITY_GET_US.FAILURE:
+			return false;
+		default:
+			return state;
+	}
+};
+
+const euFetchingReducer = combineReducers({
+	deviceList: euDeviceListFetchingReducer,
+	availability: euDeviceAvailabilityFetchingReducer
+});
+const usFetchingReducer = combineReducers({
+	deviceList: usDeviceListFetchingReducer,
+	availability: usDeviceAvailabilityFetchingReducer
+});
+const fetchingReducer = combineReducers({
+	eu: euFetchingReducer,
+	us: usFetchingReducer
+});
+
 const deviceList = combineReducers({
 	eu: euDevicesReducer,
 	us: usDevicesReducer
@@ -65,7 +133,8 @@ const deviceList = combineReducers({
 
 const reducer = combineReducers({
 	deviceList,
-	filterMode: filterModeReducer
+	filterMode: filterModeReducer,
+	fetching: fetchingReducer
 });
 
 export default reducer;

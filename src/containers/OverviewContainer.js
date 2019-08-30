@@ -26,10 +26,12 @@ class OverviewContainer extends Component {
   componentDidUpdate({ euDeviceList: oldDeviceListEu, usDeviceList: oldDeviceListUs }) {
     const { euDeviceList, usDeviceList } = this.props;
     if (oldDeviceListUs.length === 0 && usDeviceList !== 0) {
+      this.fetchUsDeviceAvailability();
       this.kickoffFetchUsDeviceAvailability();
     }
 
     if (oldDeviceListEu.length === 0 && euDeviceList.length !== 0) {
+      this.fetchEuDeviceAvailability();
       this.kickoffFetchEuDeviceAvailability();
     }
   }
@@ -112,13 +114,25 @@ OverviewContainer.propTypes = {
   /** list of all US devices, available and unavailable */
   usDeviceList: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** determines which devices to show based on OS */
-  filterMode: PropTypes.oneOf([constants.DEVICES_ALL, constants.DEVICES_ANDROID, constants.DEVICES_IOS])
+  filterMode: PropTypes.oneOf([constants.DEVICES_ALL, constants.DEVICES_ANDROID, constants.DEVICES_IOS]),
+  /** true if the app is current fetching data for initial device list or availability for EU or US */
+  fetching: PropTypes.shape({
+    eu: PropTypes.shape({
+      deviceList: PropTypes.bool.isRequired,
+      availability: PropTypes.bool.isRequired,
+    }).isRequired,
+    us: PropTypes.shape({
+      deviceList: PropTypes.bool.isRequired,
+      availability: PropTypes.bool.isRequired,
+    }).isRequired
+  })
 };
 
 export const mapStateToProps = (state) => ({
   euDeviceList: selectors.selectDeviceList(state, 'eu'),
   usDeviceList: selectors.selectDeviceList(state, 'us'),
-  filterMode: state.devices.filterMode
+  filterMode: selectors.selectFilterMode(state),
+  fetching: selectors.selectFetchingStatuses(state)
 });
 
 const mapDispatchToProps = {
