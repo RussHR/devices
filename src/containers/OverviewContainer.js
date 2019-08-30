@@ -5,6 +5,7 @@ import actions from "../ducks/devices/actions";
 import constants from "../ducks/devices/constants";
 import selectors from "../ducks/devices/selectors";
 import DevicesSection from "../components/DevicesSection"
+import FilterAndFetchingIndicator from "../components/FilterAndFetchingIndicator";
 
 class OverviewContainer extends Component {
   componentDidMount() {
@@ -41,7 +42,7 @@ class OverviewContainer extends Component {
    * @returns {undefined}
    */
   kickoffFetchEuDeviceAvailability = () => {
-    this.euAvailabilityIntervalId = window.setInterval(this.fetchEuDeviceAvailability, 2000);
+    this.euAvailabilityIntervalId = window.setInterval(this.fetchEuDeviceAvailability, 5000);
   }
 
   /**
@@ -49,7 +50,7 @@ class OverviewContainer extends Component {
    * @returns {undefined}
    */
   kickoffFetchUsDeviceAvailability = () => {
-    this.usAvailabilityIntervalId = window.setInterval(this.fetchUsDeviceAvailability, 2000);
+    this.usAvailabilityIntervalId = window.setInterval(this.fetchUsDeviceAvailability, 5000);
   }
 
   /**
@@ -78,17 +79,18 @@ class OverviewContainer extends Component {
   }
 
   render() {
-    const { euDeviceList, usDeviceList, filterMode } = this.props;
+    const { euDeviceList, usDeviceList, filterMode, fetching } = this.props;
 
     let devicesToShow = euDeviceList.concat(usDeviceList);
     if (filterMode === constants.DEVICES_IOS) {
-      devicesToShow = devicesToShow.filter(({ os }) => (os === constants.DEVICES_IOS))
+      devicesToShow = devicesToShow.filter(({ os }) => (os === constants.DEVICES_IOS));
     } else if (filterMode === constants.DEVICES_ANDROID) {
-      devicesToShow = devicesToShow.filter(({ os }) => (os === constants.DEVICES_ANDROID))
+      devicesToShow = devicesToShow.filter(({ os }) => (os === constants.DEVICES_ANDROID));
     }
 
     return (
       <main>
+        <FilterAndFetchingIndicator fetchingStatuses={fetching} />
         <select value={this.props.filterMode} onChange={this.setFilterMode}>
           <option value={constants.DEVICES_ALL}>All devices</option>
           <option value={constants.DEVICES_ANDROID}>Android</option>
