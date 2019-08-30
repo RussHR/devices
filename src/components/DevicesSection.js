@@ -32,7 +32,7 @@ const DevicesSection = ({ deviceList }) => {
 }
 
 DevicesSection.propTypes = {
-	/** possibly empty if the API fails at the EU data center */
+	/** possibly empty if the API fails at the EU and US data centers */
 	deviceList: PropTypes.arrayOf(PropTypes.shape({
 		descriptorId: PropTypes.string.isRequired,
 		name: PropTypes.string.isRequired,

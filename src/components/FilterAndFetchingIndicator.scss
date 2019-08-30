@@ -4,10 +4,10 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 20px;
-	background-color: #ac1414;
-	color: white;
-	font-size: 20px;
+	padding: $width-gutter;
+	background-color: $color-secondary-bg;
+	color: $color-secondary-text;
+	font-size: $width-gutter;
 
 	@media screen and (max-width: $width-mobile-device) {
 		flex-direction: column;

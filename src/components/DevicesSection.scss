@@ -1,14 +1,16 @@
+@import "../style/variables";
+
 .devicesSection {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-around;
-	padding: 20px;
+	padding: $width-gutter;
 }
 
 .devicesSection__device {
 	padding: 10px;
-	margin: 20px;
-	border: 1px solid #464b54;
+	margin: $width-gutter;
+	border: 1px solid $color-device-border;
 	text-align: center;
 
 	> img {
