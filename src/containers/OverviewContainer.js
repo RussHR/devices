@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import actions from "../ducks/devices/actions";
 import constants from "../ducks/devices/constants";
 import selectors from "../ducks/devices/selectors";
+import DevicesSection from "../components/DevicesSection"
 
 class OverviewContainer extends Component {
   componentDidMount() {
@@ -75,12 +76,16 @@ class OverviewContainer extends Component {
   }
 
   render() {
+    const { euDeviceList, usDeviceList } = this.props;
     return (
-      <select value={this.props.filterMode} onChange={this.setFilterMode}>
-        <option value={constants.DEVICES_ALL}>All devices</option>
-        <option value={constants.DEVICES_ANDROID}>Android</option>
-        <option value={constants.DEVICES_IOS}>iOS</option>
-      </select>
+      <main>
+        <select value={this.props.filterMode} onChange={this.setFilterMode}>
+          <option value={constants.DEVICES_ALL}>All devices</option>
+          <option value={constants.DEVICES_ANDROID}>Android</option>
+          <option value={constants.DEVICES_IOS}>iOS</option>
+        </select>
+        <DevicesSection euDeviceList={euDeviceList} usDeviceList={usDeviceList} />
+      </main>
     );
   }
 }
