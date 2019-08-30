@@ -9,23 +9,35 @@ const FilterAndFetchingIndicator = ({ fetchingStatuses: { eu, us }, filterMode, 
 	const usSpinnerClassName = `filterAndFetchingIndicator__spinner ${us.availability ? 'filterAndFetchingIndicator__spinner--active' : ''}`;
 
 	return (
-		<section className="filterAndFetchingIndicator">
-			<div className="filterAndFetchingIndicator__filter">
-				<label htmlFor="set-filter-mode">OS:</label>
+		<section>
+			<div className="filterAndFetchingIndicator">
+				<div className="filterAndFetchingIndicator__filter">
+					<label htmlFor="set-filter-mode">OS:</label>
+					<br />
+					<select value={filterMode} onChange={setFilterMode} id="set-filter-mode">
+						<option value={constants.DEVICES_ALL}>All devices</option>
+						<option value={constants.DEVICES_ANDROID}>Android</option>
+						<option value={constants.DEVICES_IOS}>iOS</option>
+					</select>
+				</div>
+				<div className="filterAndFetchingIndicator__fetchingStatus">
+					Fetching Availability Status:
 				<br />
-				<select value={filterMode} onChange={setFilterMode} id="set-filter-mode">
-					<option value={constants.DEVICES_ALL}>All devices</option>
-					<option value={constants.DEVICES_ANDROID}>Android</option>
-					<option value={constants.DEVICES_IOS}>iOS</option>
-				</select>
+					<span className={euSpinnerClassName}>↻</span>🇪🇺
+				<br />
+					<span className={usSpinnerClassName}>↻</span>🇺🇸
+				</div>
 			</div>
-			<div className="filterAndFetchingIndicator__fetchingStatus">
-				Availability Fetching Status:
-				<br />
-				<span className={euSpinnerClassName}>↻</span>🇪🇺
-				<br />
-				<span className={usSpinnerClassName}>↻</span>🇺🇸
-			</div>
+			{eu.deviceList && (
+				<p>
+					Fetching EU devices...
+				</p>
+			)}
+			{us.deviceList && (
+				<p>
+					Fetching US devices...
+				</p>
+			)}
 		</section>
 	);
 };
