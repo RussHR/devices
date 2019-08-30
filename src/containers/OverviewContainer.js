@@ -76,7 +76,15 @@ class OverviewContainer extends Component {
   }
 
   render() {
-    const { euDeviceList, usDeviceList } = this.props;
+    const { euDeviceList, usDeviceList, filterMode } = this.props;
+
+    let devicesToShow = euDeviceList.concat(usDeviceList);
+    if (filterMode === constants.DEVICES_IOS) {
+      devicesToShow = devicesToShow.filter(({ os }) => (os === constants.DEVICES_IOS))
+    } else if (filterMode === constants.DEVICES_ANDROID) {
+      devicesToShow = devicesToShow.filter(({ os }) => (os === constants.DEVICES_ANDROID))
+    }
+
     return (
       <main>
         <select value={this.props.filterMode} onChange={this.setFilterMode}>
@@ -84,7 +92,7 @@ class OverviewContainer extends Component {
           <option value={constants.DEVICES_ANDROID}>Android</option>
           <option value={constants.DEVICES_IOS}>iOS</option>
         </select>
-        <DevicesSection euDeviceList={euDeviceList} usDeviceList={usDeviceList} />
+        <DevicesSection deviceList={devicesToShow} />
       </main>
     );
   }

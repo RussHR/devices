@@ -43,6 +43,7 @@ describe('OverviewContainer', () => {
         name: 'name 0',
         os: 'ANDROID',
         osVersion: '7.8.9',
+        region: 'eu',
         available: false
       }]);
     });
@@ -54,6 +55,7 @@ describe('OverviewContainer', () => {
           name: 'name 1',
           os: 'ANDROID',
           osVersion: '1.2.3',
+          region: 'us',
           available: false
         },
         {
@@ -61,6 +63,7 @@ describe('OverviewContainer', () => {
           name: 'name 2',
           os: 'IOS',
           osVersion: '4.5.6',
+          region: 'us',
           available: false
         }
       ]);

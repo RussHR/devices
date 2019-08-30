@@ -7,6 +7,7 @@
 const selectDeviceList = (state, region = 'eu') => {
 	return Object.entries(state.devices.deviceList[region]).map(([descriptorId, deviceData]) => ({
 		descriptorId,
+		region,
 		...deviceData
 	}));
 };
