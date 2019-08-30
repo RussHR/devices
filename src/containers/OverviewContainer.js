@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import actions from "../ducks/devices/actions";
 import constants from "../ducks/devices/constants";
 import selectors from "../ducks/devices/selectors";
+import types from "../ducks/devices/types";
+import DevicesSection from "../components/DevicesSection"
+import FilterAndFetchingIndicator from "../components/FilterAndFetchingIndicator";
 
 class OverviewContainer extends Component {
   componentDidMount() {
@@ -40,7 +43,7 @@ class OverviewContainer extends Component {
    * @returns {undefined}
    */
   kickoffFetchEuDeviceAvailability = () => {
-    this.euAvailabilityIntervalId = window.setInterval(this.fetchEuDeviceAvailability, 2000);
+    this.euAvailabilityIntervalId = window.setInterval(this.fetchEuDeviceAvailability, 5000);
   }
 
   /**
@@ -48,7 +51,7 @@ class OverviewContainer extends Component {
    * @returns {undefined}
    */
   kickoffFetchUsDeviceAvailability = () => {
-    this.usAvailabilityIntervalId = window.setInterval(this.fetchUsDeviceAvailability, 2000);
+    this.usAvailabilityIntervalId = window.setInterval(this.fetchUsDeviceAvailability, 5000);
   }
 
   /**
@@ -77,12 +80,24 @@ class OverviewContainer extends Component {
   }
 
   render() {
+    const { euDeviceList, usDeviceList, filterMode, fetching } = this.props;
+
+    let devicesToShow = euDeviceList.concat(usDeviceList);
+    if (filterMode === constants.DEVICES_IOS) {
+      devicesToShow = devicesToShow.filter(({ os }) => (os === constants.DEVICES_IOS));
+    } else if (filterMode === constants.DEVICES_ANDROID) {
+      devicesToShow = devicesToShow.filter(({ os }) => (os === constants.DEVICES_ANDROID));
+    }
+
     return (
-      <select value={this.props.filterMode} onChange={this.setFilterMode}>
-        <option value={constants.DEVICES_ALL}>All devices</option>
-        <option value={constants.DEVICES_ANDROID}>Android</option>
-        <option value={constants.DEVICES_IOS}>iOS</option>
-      </select>
+      <main>
+        <FilterAndFetchingIndicator
+          fetchingStatuses={fetching}
+          filterMode={this.props.filterMode}
+          setFilterMode={this.setFilterMode}
+        />
+        <DevicesSection deviceList={devicesToShow} />
+      </main>
     );
   }
 }
@@ -102,7 +117,7 @@ OverviewContainer.propTypes = {
   usDeviceList: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** determines which devices to show based on OS */
   filterMode: PropTypes.oneOf([constants.DEVICES_ALL, constants.DEVICES_ANDROID, constants.DEVICES_IOS]),
-  /** true if the app is current fetching data for initial device list or availability for EU or US */
+  /** true if the app is currently fetching data for initial device list or availability for EU or US */
   fetching: PropTypes.shape({
     eu: PropTypes.shape({
       deviceList: PropTypes.bool.isRequired,
@@ -116,8 +131,8 @@ OverviewContainer.propTypes = {
 };
 
 export const mapStateToProps = (state) => ({
-  euDeviceList: selectors.selectDeviceList(state, 'eu'),
-  usDeviceList: selectors.selectDeviceList(state, 'us'),
+  euDeviceList: selectors.selectDeviceList(state, types.NAMESPACE_EU),
+  usDeviceList: selectors.selectDeviceList(state, types.NAMESPACE_US),
   filterMode: selectors.selectFilterMode(state),
   fetching: selectors.selectFetchingStatuses(state)
 });

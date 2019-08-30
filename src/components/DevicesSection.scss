@@ -1,0 +1,19 @@
+@import "../style/variables";
+
+.devicesSection {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	padding: $width-gutter;
+}
+
+.devicesSection__device {
+	padding: 10px;
+	margin: $width-gutter;
+	border: 1px solid $color-device-border;
+	text-align: center;
+
+	> img {
+		max-height: 100px;
+	}
+}

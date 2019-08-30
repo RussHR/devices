@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import selectors from "./selectors";
+import types from "./types";
 
 describe('selectors', () => {
 	describe('selectDeviceList', () => {
@@ -42,16 +43,18 @@ describe('selectors', () => {
 				name: 'name 0',
 				os: 'ANDROID',
 				osVersion: '7.8.9',
+				region: types.NAMESPACE_EU,
 				available: false
 			}]);
 		});
 		it('should get devices from us when passed the correct region param', () => {
-			expect(selectors.selectDeviceList(mockState, 'us')).to.deep.equal([
+			expect(selectors.selectDeviceList(mockState, types.NAMESPACE_US)).to.deep.equal([
 				{
 					descriptorId: 'descriptorId_1',
 					name: 'name 1',
 					os: 'ANDROID',
 					osVersion: '1.2.3',
+					region: types.NAMESPACE_US,
 					available: false
 				},
 				{
@@ -59,6 +62,7 @@ describe('selectors', () => {
 					name: 'name 2',
 					os: 'IOS',
 					osVersion: '4.5.6',
+					region: types.NAMESPACE_US,
 					available: false
 				}
 			]);
