@@ -1,10 +1,12 @@
+import types from "./types";
+
 /**
  * Converts the object format of devices in the redux store to an array for components
  * @param {object} state - redux state, which has .devices.deviceList
- * @param {string} region - must be 'eu' or 'us'
+ * @param {string} region - must be 'eu' or 'us' (stored as namespaces in /types)
  * @returns {array} objects that include all the data for a given device
  */
-const selectDeviceList = (state, region = 'eu') => {
+const selectDeviceList = (state, region = types.NAMESPACE_EU) => {
 	return Object.entries(state.devices.deviceList[region]).map(([descriptorId, deviceData]) => ({
 		descriptorId,
 		region,

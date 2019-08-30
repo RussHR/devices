@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import types from "../ducks/devices/types";
 
 import "./DevicesSection.scss";
 
@@ -22,7 +23,7 @@ const DevicesSection = ({ deviceList }) => {
 					<br />
 					<span>{osVersion}</span>
 					<br />
-					<span>{region === 'eu' ? '🇪🇺' : '🇺🇸'}</span>
+					<span>{region === types.NAMESPACE_EU ? '🇪🇺' : '🇺🇸'}</span>
 					<br />
 					<span>{available ? 'available' : 'not available'}</span>
 				</div>
@@ -38,7 +39,7 @@ DevicesSection.propTypes = {
 		name: PropTypes.string.isRequired,
 		os: PropTypes.string,
 		osVersion: PropTypes.string.isRequired,
-		region: PropTypes.oneOf(['us', 'eu']),
+		region: PropTypes.oneOf([types.NAMESPACE_EU, types.NAMESPACE_US]),
 		available: PropTypes.bool
 	})),
 };

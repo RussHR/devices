@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import actions from "../ducks/devices/actions";
 import constants from "../ducks/devices/constants";
 import selectors from "../ducks/devices/selectors";
+import types from "../ducks/devices/types";
 import DevicesSection from "../components/DevicesSection"
 import FilterAndFetchingIndicator from "../components/FilterAndFetchingIndicator";
 
@@ -42,7 +43,7 @@ class OverviewContainer extends Component {
    * @returns {undefined}
    */
   kickoffFetchEuDeviceAvailability = () => {
-    this.euAvailabilityIntervalId = window.setInterval(this.fetchEuDeviceAvailability, 3500);
+    this.euAvailabilityIntervalId = window.setInterval(this.fetchEuDeviceAvailability, 5000);
   }
 
   /**
@@ -50,7 +51,7 @@ class OverviewContainer extends Component {
    * @returns {undefined}
    */
   kickoffFetchUsDeviceAvailability = () => {
-    this.usAvailabilityIntervalId = window.setInterval(this.fetchUsDeviceAvailability, 3500);
+    this.usAvailabilityIntervalId = window.setInterval(this.fetchUsDeviceAvailability, 5000);
   }
 
   /**
@@ -130,8 +131,8 @@ OverviewContainer.propTypes = {
 };
 
 export const mapStateToProps = (state) => ({
-  euDeviceList: selectors.selectDeviceList(state, 'eu'),
-  usDeviceList: selectors.selectDeviceList(state, 'us'),
+  euDeviceList: selectors.selectDeviceList(state, types.NAMESPACE_EU),
+  usDeviceList: selectors.selectDeviceList(state, types.NAMESPACE_US),
   filterMode: selectors.selectFilterMode(state),
   fetching: selectors.selectFetchingStatuses(state)
 });
