@@ -1,20 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import "./DevicesSection.scss";
+
+/**
+ * Lists out all the devices
+ */
 const DevicesSection = ({ deviceList }) => {
 	return (
-		<section>
+		<section className="devicesSection">
 			{deviceList.map(({ descriptorId, name, os, osVersion, region, available }) => (
-				<div key={`${region}-${descriptorId}`}>
-					{name}
-					{os}
-					{osVersion}
-					{region}
-					{available ? 'available' : 'not available'}
+				<div key={`${region}-${descriptorId}`} className="devicesSection__device">
 					<img
 						src={`https://d3ty40hendov17.cloudfront.net/device-pictures/${descriptorId}.png`}
 						alt={`Mobile device: ${name}.`}
 					/>
+					<br />
+					<span>{name}</span>
+					<br />
+					<span>{os}</span>
+					<br />
+					<span>{osVersion}</span>
+					<br />
+					<span>{region === 'eu' ? '🇪🇺' : '🇺🇸'}</span>
+					<br />
+					<span>{available ? 'available' : 'not available'}</span>
 				</div>
 			))}
 		</section>

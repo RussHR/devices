@@ -42,7 +42,7 @@ class OverviewContainer extends Component {
    * @returns {undefined}
    */
   kickoffFetchEuDeviceAvailability = () => {
-    this.euAvailabilityIntervalId = window.setInterval(this.fetchEuDeviceAvailability, 5000);
+    this.euAvailabilityIntervalId = window.setInterval(this.fetchEuDeviceAvailability, 3500);
   }
 
   /**
@@ -50,7 +50,7 @@ class OverviewContainer extends Component {
    * @returns {undefined}
    */
   kickoffFetchUsDeviceAvailability = () => {
-    this.usAvailabilityIntervalId = window.setInterval(this.fetchUsDeviceAvailability, 5000);
+    this.usAvailabilityIntervalId = window.setInterval(this.fetchUsDeviceAvailability, 3500);
   }
 
   /**

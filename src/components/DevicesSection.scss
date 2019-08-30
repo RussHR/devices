@@ -1,0 +1,17 @@
+.devicesSection {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	padding: 20px;
+}
+
+.devicesSection__device {
+	padding: 10px;
+	margin: 20px;
+	border: 1px solid #464b54;
+	text-align: center;
+
+	> img {
+		max-height: 100px;
+	}
+}
