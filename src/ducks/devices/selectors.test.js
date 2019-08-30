@@ -64,4 +64,54 @@ describe('selectors', () => {
 			]);
 		});
 	});
+
+	describe('selectFilterMode', () => {
+		let mockState;
+
+		beforeAll(() => {
+			mockState = {
+				devices: {
+					filterMode: 'asdf'
+				}
+			};
+		});
+
+		it('should return the current filter mode as a string', () => {
+			expect(selectors.selectFilterMode(mockState)).to.equal('asdf');
+		});
+	});
+
+	describe('selectFetchingStatuses', () => {
+		let mockState;
+
+		beforeAll(() => {
+			mockState = {
+				devices: {
+					fetching: {
+						eu: {
+							availability: false,
+							deviceList: true
+						},
+						us: {
+							availability: true,
+							deviceList: false
+						}
+					}
+				}
+			};
+		});
+
+		it('should return the current filter mode as a string', () => {
+			expect(selectors.selectFetchingStatuses(mockState)).to.deep.equal({
+				eu: {
+					availability: false,
+					deviceList: true
+				},
+				us: {
+					availability: true,
+					deviceList: false
+				}
+			});
+		});
+	});
 });
