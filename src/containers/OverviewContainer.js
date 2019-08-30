@@ -118,8 +118,8 @@ OverviewContainer.propTypes = {
 export const mapStateToProps = (state) => ({
   euDeviceList: selectors.selectDeviceList(state, 'eu'),
   usDeviceList: selectors.selectDeviceList(state, 'us'),
-  filterMode: state.devices.filterMode,
-  fetching: state.devices.fetching
+  filterMode: selectors.selectFilterMode(state),
+  fetching: selectors.selectFetchingStatuses(state)
 });
 
 const mapDispatchToProps = {

@@ -11,6 +11,22 @@ const selectDeviceList = (state, region = 'eu') => {
 	}));
 };
 
+/**
+ * Converts the object format of devices in the redux store to an array for components
+ * @param {object} state - redux state, which has .devices.filterMode
+ * @returns {string} either 'ALL', 'ANDROID', or 'IOS'
+ */
+const selectFilterMode = (state) => (state.devices.filterMode);
+
+/**
+ * Converts the object format of devices in the redux store to an array for components
+ * @param {object} state - redux state, which has .devices.filterMode
+ * @returns {string} either 'ALL', 'ANDROID', or 'IOS'
+ */
+const selectFetchingStatuses = (state) => (state.devices.fetching);
+
 export default {
-	selectDeviceList
+	selectDeviceList,
+	selectFilterMode,
+	selectFetchingStatuses
 }
