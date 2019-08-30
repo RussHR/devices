@@ -41,7 +41,7 @@ DevicesSection.propTypes = {
 	deviceList: PropTypes.arrayOf(PropTypes.shape({
 		descriptorId: PropTypes.string.isRequired,
 		name: PropTypes.string.isRequired,
-		os: PropTypes.string,
+		os: PropTypes.string.isRequired,
 		osVersion: PropTypes.string.isRequired,
 		region: PropTypes.oneOf([types.NAMESPACE_EU, types.NAMESPACE_US]),
 		available: PropTypes.bool
