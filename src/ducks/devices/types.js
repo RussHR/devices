@@ -1,5 +1,4 @@
 import { createConstants, createApiConstants } from "../../utils/constant";
-import constants from "./constants";
 
 // Place action type constants here.
 
