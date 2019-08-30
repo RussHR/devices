@@ -90,12 +90,11 @@ class OverviewContainer extends Component {
 
     return (
       <main>
-        <FilterAndFetchingIndicator fetchingStatuses={fetching} />
-        <select value={this.props.filterMode} onChange={this.setFilterMode}>
-          <option value={constants.DEVICES_ALL}>All devices</option>
-          <option value={constants.DEVICES_ANDROID}>Android</option>
-          <option value={constants.DEVICES_IOS}>iOS</option>
-        </select>
+        <FilterAndFetchingIndicator
+          fetchingStatuses={fetching}
+          filterMode={this.props.filterMode}
+          setFilterMode={this.setFilterMode}
+        />
         <DevicesSection deviceList={devicesToShow} />
       </main>
     );
@@ -117,7 +116,7 @@ OverviewContainer.propTypes = {
   usDeviceList: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** determines which devices to show based on OS */
   filterMode: PropTypes.oneOf([constants.DEVICES_ALL, constants.DEVICES_ANDROID, constants.DEVICES_IOS]),
-  /** true if the app is current fetching data for initial device list or availability for EU or US */
+  /** true if the app is currently fetching data for initial device list or availability for EU or US */
   fetching: PropTypes.shape({
     eu: PropTypes.shape({
       deviceList: PropTypes.bool.isRequired,
