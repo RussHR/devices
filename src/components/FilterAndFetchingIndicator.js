@@ -4,6 +4,9 @@ import constants from "../ducks/devices/constants";
 
 import "./FilterAndFetchingIndicator.scss";
 
+/**
+ * Houses the filter by OS <select> and indicators for fetching
+ */
 const FilterAndFetchingIndicator = ({ fetchingStatuses: { eu, us }, filterMode, setFilterMode }) => {
 	const euSpinnerClassName = `filterAndFetchingIndicator__spinner ${eu.availability ? 'filterAndFetchingIndicator__spinner--active' : ''}`;
 	const usSpinnerClassName = `filterAndFetchingIndicator__spinner ${us.availability ? 'filterAndFetchingIndicator__spinner--active' : ''}`;
@@ -23,9 +26,9 @@ const FilterAndFetchingIndicator = ({ fetchingStatuses: { eu, us }, filterMode, 
 				<div className="filterAndFetchingIndicator__fetchingStatus">
 					Fetching Availability Status:
 				<br />
-					<span className={euSpinnerClassName}>↻</span>🇪🇺
+					<span data-qa="eu-availability-spinner" className={euSpinnerClassName}>↻</span>🇪🇺
 				<br />
-					<span className={usSpinnerClassName}>↻</span>🇺🇸
+					<span data-qa="us-availability-spinner" className={usSpinnerClassName}>↻</span>🇺🇸
 				</div>
 			</div>
 			{eu.deviceList && (
@@ -46,12 +49,12 @@ FilterAndFetchingIndicator.propTypes = {
 	/** each of these represent whether the browser is actively fetching this information */
 	fetchingStatuses: PropTypes.shape({
 		eu: PropTypes.shape({
-			deviceList: PropTypes.bool.isRequired,
-			availability: PropTypes.bool.isRequired,
+			deviceList: PropTypes.bool,
+			availability: PropTypes.bool,
 		}).isRequired,
 		us: PropTypes.shape({
-			deviceList: PropTypes.bool.isRequired,
-			availability: PropTypes.bool.isRequired,
+			deviceList: PropTypes.bool,
+			availability: PropTypes.bool,
 		}).isRequired
 	}),
 	/** needed to supply as value for the <select> */

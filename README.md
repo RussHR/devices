@@ -1,7 +1,25 @@
 ## *Your notes for us*
 
 
-*Place any details about your implementation and usage of your app here.*
+Hey! I wish I had more time to work on this, but my time has been pretty limited. I was able to accomplish all the user stories, but I would've definitely addressed other things given more time.
+
+Things I would like to improve:
+- better test coverage
+    - using something like redux-mock-store for better testing for reducers and the container
+    - actions in general; I am curious how testing is done via the `createApiAction` helper
+- a chance to revisit the data! had to blaze through how the store was structured
+- error states; right now there isn't anything handling error states. This would be another part of the store that gets set to true or possibly an error message upon FAILURE of an api action
+- lazy-loading images; right now, everything gets loaded at once! I would likely put a throttled listener on the window and load the images that are within the viewport or are about to come in from the bottom
+- better use of responsiveness; right now the design is just pretty basic
+- inconsistent tabs, double vs single quotes; it didn't seem like the linter was enforcing this, and it seemed random based on the file. Usually I like to stick with tabs for accessibility
+
+Other notes:
+- as someone new to the ducks architecture, I would be interested in seeing a good example of something in `operations`. also, the line between `types` and `constants` became a bit blurry for me.
+- I come from a BEMCSS background, and that's usually how I write out my styling
+- moved `index.css` to `/style`
+- created a `selectors` file within `ducks`
+- there's an API call for the availability of the devices every 5 seconds only if the app successfully got a list of devices from that data center
+
 
 
 ---
